@@ -1,0 +1,134 @@
+using UnityEngine;
+using DG.Tweening;
+
+public class ForkliftController : MonoBehaviour
+{
+    [SerializeField] private float moveDistance = 1f; 
+    [SerializeField] private float moveDuration = 1f; 
+    [SerializeField] private int position = 1;
+    private int maxPosition = 3;
+    private bool isMoving = false;
+
+    private Quaternion savedRotationBeforeForkUp;
+    [SerializeField] private float maxAllowedAngleDifference = 15f;
+    [SerializeField] private BlockTrigger blockTrigger;
+
+    // Joint system
+    private FixedJoint joint;
+    [SerializeField] private GameObject triggerGameObject;
+    [SerializeField] private float breakForce = 1000000f;
+
+    private void Awake() => joint = GetComponent<FixedJoint>();
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E)) MoveForkUp();
+        if (Input.GetKeyDown(KeyCode.Q)) MoveForkDown();
+    }
+
+    private void MoveFork(float _direction, bool _isHaveTriggerObject = false)
+    {
+        isMoving = true;
+
+        transform.DOMoveY(transform.position.y + _direction, moveDuration)
+            .SetEase(Ease.InOutSine)
+            .OnComplete(() =>
+            {
+                isMoving = false;
+
+                if (position == 1)
+                {
+                    Destroy(joint);
+                }
+                else if (position == 2 && _isHaveTriggerObject == true)
+                {
+                    if (IsObjectCorrectlyPlaced())
+                    {
+                        SetNewJoint(triggerGameObject);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Object is not correctly placed on the forklift!");
+                    }
+                }
+            });
+    }
+
+    private void SetNewJoint(GameObject _obj)
+    {
+        if (joint == null) joint = gameObject.AddComponent<FixedJoint>();
+        joint.connectedBody = _obj.GetComponent<Rigidbody>();
+        joint.breakForce = breakForce;
+        joint.breakTorque = breakForce;
+        joint.enableCollision = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"OnTriggerEnter collider other is: " + other.name);
+        ILiftable iLiftable = other.GetComponent<ILiftable>();
+
+        if (iLiftable != null)
+        {
+            if (other.transform.parent != null)
+            {
+                triggerGameObject = other.transform.parent.gameObject;
+            }
+            else
+            {
+                Debug.Log($"Object {other.name} with ILiftable has no parent!");
+            }
+        }
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.parent.gameObject == triggerGameObject) triggerGameObject = null;
+    }
+
+    public void MoveForkUp()
+    {
+        if (isMoving) return;
+        bool isHaveTriggerObject = false;
+        if (triggerGameObject != null)
+            isHaveTriggerObject = true;
+
+        if (position < maxPosition)
+        {
+            position++;
+            if (isHaveTriggerObject)
+            {
+                savedRotationBeforeForkUp = triggerGameObject.transform.rotation;
+                MoveFork(moveDistance, isHaveTriggerObject);
+            }
+            else MoveFork(moveDistance, isHaveTriggerObject);
+        }
+    }
+
+    public void MoveForkDown()
+    {
+        if (isMoving || blockTrigger.isBlocked) return;
+
+        if (position > 1)
+        {
+            position--;
+            MoveFork(-moveDistance);
+        }
+    }
+
+    private bool IsObjectCorrectlyPlaced()
+    {
+        if (triggerGameObject == null) return false;
+
+        float angleDifference = Quaternion.Angle(savedRotationBeforeForkUp, triggerGameObject.transform.rotation);
+        if (angleDifference > maxAllowedAngleDifference)
+        {
+            Debug.Log("Rotation check failed: angle difference = " + angleDifference);
+            return false;
+        }
+
+        Debug.Log("Object is correctly placed.");
+        return true;
+    }
+}
