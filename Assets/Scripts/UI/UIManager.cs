@@ -22,14 +22,10 @@ public class UIManager : MonoBehaviour
     {
         useTouchControls = carController.useTouchControls;
         UpdateLiftButtons();
-        UpdateMenu();
     }
-
-    public void UpdateMenu() => inputControlsToggle.isOn = useTouchControls;
 
     public void InputControlsToggle() {
         useTouchControls = !inputControlsToggle.isOn;
-        UpdateMenu();
     }
     
     private void TurnOnCanvas(GameObject _canvas) => _canvas.active = true;
