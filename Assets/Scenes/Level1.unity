@@ -331,10 +331,10 @@ RectTransform:
   - {fileID: 175319998}
   m_Father: {fileID: 237142952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 192.54076, y: -351.4842}
+  m_SizeDelta: {x: 385.0815, y: 124.59367}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5409779
 MonoBehaviour:
@@ -600,8 +600,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36085617}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1252.5557, y: -424.35486, z: 16.489971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -611,7 +611,7 @@ Transform:
   - {fileID: 1260278816}
   - {fileID: 1891734691}
   - {fileID: 301496311}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46586160
 GameObject:
@@ -9638,6 +9638,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.13, y: 1.42, z: 0.89}
   m_Center: {x: 0, y: 0.71, z: 0}
+--- !u!1 &292057183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 292057184}
+  m_Layer: 0
+  m_Name: DONTDESTROYABLEONLOAD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &292057184
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292057183}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1252.5557, y: 424.35486, z: -16.489971}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 627903776}
+  - {fileID: 875416607}
+  - {fileID: 698242415}
+  - {fileID: 1144274278}
+  - {fileID: 500328634}
+  - {fileID: 36085618}
+  - {fileID: 2038520340}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &293206774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12448,7 +12486,7 @@ RectTransform:
   m_Father: {fileID: 1502672841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12840,12 +12878,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500328631}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1252.5557, y: -424.35486, z: 16.489971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &500328635
 MonoBehaviour:
@@ -13781,7 +13819,7 @@ MonoBehaviour:
   useSounds: 1
   carEngineSound: {fileID: 615609932}
   tireScreechSound: {fileID: 66484012}
-  useTouchControls: 1
+  useTouchControls: 0
   throttleButton: {fileID: 2125577375}
   reverseButton: {fileID: 740486472}
   turnRightButton: {fileID: 934404362}
@@ -15176,11 +15214,11 @@ Transform:
   m_GameObject: {fileID: 627903774}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2686498, y: 0.7303985, z: -0.46531513, w: 0.42169568}
-  m_LocalPosition: {x: 0, y: 30, z: 0}
-  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000002}
+  m_LocalPosition: {x: -1252.5557, y: -394.35486, z: 16.489971}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 65, y: 120, z: 0}
 --- !u!1 &632518924
 GameObject:
@@ -20261,10 +20299,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 354505398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 477.56964, y: -102.147095}
+  m_SizeDelta: {x: 955.1393, y: 204.29419}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &643920309
 MonoBehaviour:
@@ -25756,8 +25794,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698242414}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1252.5557, y: -424.45486, z: 16.489971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25769,7 +25807,7 @@ Transform:
   - {fileID: 1674775133}
   - {fileID: 1393953792}
   - {fileID: 591673554}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &700400298
 PrefabInstance:
@@ -28341,12 +28379,12 @@ Transform:
   m_GameObject: {fileID: 875416604}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 2.1, z: 2}
+  m_LocalPosition: {x: -1242.5557, y: -422.25485, z: 18.489971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1541967096}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &886273639 stripped
 GameObject:
@@ -31529,10 +31567,10 @@ RectTransform:
   - {fileID: 65265096}
   m_Father: {fileID: 237142952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 192.54076, y: -62.296837}
+  m_SizeDelta: {x: 385.0815, y: 124.59367}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1121753871
 MonoBehaviour:
@@ -32248,7 +32286,7 @@ RectTransform:
   - {fileID: 1613412567}
   - {fileID: 2100781184}
   - {fileID: 1830533580}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -32269,12 +32307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carController: {fileID: 299688004844818821}
   inputControlsToggle: {fileID: 144686475}
-  isLiftButtonsActive: 1
   liftButtons: {fileID: 894043250}
   scoresStarsAnimation: {fileID: 1144274285}
   timeTargetManager: {fileID: 500328644}
   timeFinished: {fileID: 500328645}
   timerManager: {fileID: 1536467176}
+  selectedCarController: {fileID: 500328639}
   winCanvas: {fileID: 2100781183}
   loseCanvas: {fileID: 1830533579}
   menuCanvas: {fileID: 1613412566}
@@ -35382,8 +35420,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 215797223}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -35532,10 +35570,10 @@ RectTransform:
   - {fileID: 1849988278}
   m_Father: {fileID: 237142952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 192.54076, y: -206.8905}
+  m_SizeDelta: {x: 385.0815, y: 124.59367}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1406331935
 MonoBehaviour:
@@ -35983,10 +36021,10 @@ RectTransform:
   - {fileID: 1081023258}
   m_Father: {fileID: 237142952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 192.54076, y: -496.07785}
+  m_SizeDelta: {x: 385.0815, y: 124.59367}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1425415656
 MonoBehaviour:
@@ -37145,10 +37183,10 @@ RectTransform:
   - {fileID: 462516161}
   m_Father: {fileID: 1144274278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.62718517}
-  m_AnchorMax: {x: 0.99500006, y: 1}
-  m_AnchoredPosition: {x: -595, y: -338}
-  m_SizeDelta: {x: 1208, y: 678}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1200, y: 540}
+  m_SizeDelta: {x: 2400, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1518640209
 MonoBehaviour:
@@ -38905,7 +38943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1613412567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39930,10 +39968,10 @@ RectTransform:
   - {fileID: 1951683724}
   m_Father: {fileID: 354505398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 477.56964, y: -271.94128}
+  m_SizeDelta: {x: 955.1393, y: 135.29419}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1691836550
 MonoBehaviour:
@@ -40937,10 +40975,10 @@ RectTransform:
   - {fileID: 2098450145}
   m_Father: {fileID: 354505398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 477.56964, y: -542.52966}
+  m_SizeDelta: {x: 955.1393, y: 135.29419}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1742477980
 MonoBehaviour:
@@ -49474,15 +49512,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038520339}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.761, y: 5.095727, z: -26.155512}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1256.3167, y: -419.25912, z: -9.665541}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2093563188}
   - {fileID: 1254641126}
   - {fileID: 1135676979}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 292057184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2038813239 stripped
 Transform:
@@ -49785,10 +49823,10 @@ RectTransform:
   - {fileID: 1707962066}
   m_Father: {fileID: 354505398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 477.56964, y: -407.23547}
+  m_SizeDelta: {x: 955.1393, y: 135.29419}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2070648764
 MonoBehaviour:
@@ -51341,7 +51379,7 @@ MonoBehaviour:
   useSounds: 1
   carEngineSound: {fileID: 511879847}
   tireScreechSound: {fileID: 66484012}
-  useTouchControls: 1
+  useTouchControls: 0
   throttleButton: {fileID: 2125577375}
   reverseButton: {fileID: 740486472}
   turnRightButton: {fileID: 934404362}
@@ -63243,14 +63281,8 @@ SphereCollider:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 627903776}
   - {fileID: 3489784861785367554}
   - {fileID: 543450653621877418}
   - {fileID: 869199614}
   - {fileID: 525899176}
-  - {fileID: 875416607}
-  - {fileID: 698242415}
-  - {fileID: 1144274278}
-  - {fileID: 500328634}
-  - {fileID: 36085618}
-  - {fileID: 2038520340}
+  - {fileID: 292057184}

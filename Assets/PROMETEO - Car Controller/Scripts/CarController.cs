@@ -159,7 +159,7 @@ public class CarController : ILiftable
 
     [Space(10)]
     [Header("Forklift chain")]
-    [SerializeField] private bool isForklift;
+    public bool isForklift;
     [SerializeField] public ForkliftController forkliftController;
     [SerializeField] public Transform cameraPlace;
     void Start()
