@@ -32,18 +32,15 @@ public class TexturePresets : MonoBehaviour
                 QualitySettings.lodBias = 1;
                 QualitySettings.maximumLODLevel = 0;
                 ListOutsideObjects.active = true;
-                Debug.Log("High Graphics Settings Applied");
                 break;
             case 1:
                 QualitySettings.lodBias = 1;
                 QualitySettings.maximumLODLevel = 1;
                 ListOutsideObjects.active = true;
-                Debug.Log("Medium Graphics Settings Applied");
                 break;
             case 2:
                 QualitySettings.lodBias = 0;
                 ListOutsideObjects.active = false;
-                Debug.Log("Low Graphics Settings Applied");
                 break;
             default:
                 Debug.LogWarning("Unknown Graphics Preset!");

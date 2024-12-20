@@ -8,7 +8,7 @@ public class ForkliftController : MonoBehaviour
     [SerializeField] private int position = 1;
     private int maxPosition = 3;
     private bool isMoving = false;
-
+    [SerializeField] private bool isDebuging;
     private Quaternion savedRotationBeforeForkUp;
     [SerializeField] private float maxAllowedAngleDifference = 15f;
     [SerializeField] private BlockTrigger blockTrigger;
@@ -48,7 +48,7 @@ public class ForkliftController : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogWarning("Object is not correctly placed on the forklift!");
+                        if (isDebuging) Debug.LogWarning("Object is not correctly placed on the forklift!");
                     }
                 }
             });
@@ -65,7 +65,7 @@ public class ForkliftController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"OnTriggerEnter collider other is: " + other.name);
+        if (isDebuging) Debug.Log($"OnTriggerEnter collider other is: " + other.name);
         ILiftable iLiftable = other.GetComponent<ILiftable>();
 
         if (iLiftable != null)
@@ -74,18 +74,19 @@ public class ForkliftController : MonoBehaviour
             {
                 triggerGameObject = other.transform.parent.gameObject;
             }
-            else
-            {
-                Debug.Log($"Object {other.name} with ILiftable has no parent!");
-            }
+            else if (isDebuging) Debug.Log($"Object {other.name} with ILiftable has no parent!");
         }
     }
 
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.parent.gameObject == triggerGameObject) triggerGameObject = null;
+        if (other.transform.parent != null && other.transform.parent.gameObject == triggerGameObject)
+        {
+            triggerGameObject = null;
+        }
     }
+
 
     public void MoveForkUp()
     {
@@ -124,11 +125,11 @@ public class ForkliftController : MonoBehaviour
         float angleDifference = Quaternion.Angle(savedRotationBeforeForkUp, triggerGameObject.transform.rotation);
         if (angleDifference > maxAllowedAngleDifference)
         {
-            Debug.Log("Rotation check failed: angle difference = " + angleDifference);
+            if (isDebuging) Debug.Log("Rotation check failed: angle difference = " + angleDifference);
             return false;
         }
 
-        Debug.Log("Object is correctly placed.");
+        if (isDebuging) Debug.Log("Object is correctly placed.");
         return true;
     }
 }

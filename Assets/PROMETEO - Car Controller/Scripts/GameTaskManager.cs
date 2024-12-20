@@ -6,6 +6,7 @@ public class GameTaskManager : MonoBehaviour
     [SerializeField] private UIManager uiManager;
     [SerializeField] private TimerManager timerManager;
     [SerializeField] private TimeTargetManager timeTargetManager;
+    [SerializeField] private SoundManager soundManager;
     private int grade = 3;
     private void Start()
     {
@@ -26,10 +27,12 @@ public class GameTaskManager : MonoBehaviour
         Debug.Log("GameTaskManager: GameWin method called.");
         grade = timeTargetManager.GetGrade(timerManager.GetTimeInSeconds());
         uiManager.ToggleWinCanvas(grade);
+        soundManager.PlayWinSounds();
     }
     private void GameLose()
     {
         Debug.Log("GameTaskManager: GameLose method called.");
         uiManager.ToggleLoseCanvas();
+        soundManager.PlayLoseSounds();
     }
 }

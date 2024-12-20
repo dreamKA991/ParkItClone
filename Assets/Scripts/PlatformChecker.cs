@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class PlatformChecker : MonoBehaviour
 {
-    [SerializeField] public bool isMobile { get; private set; }
-    private void Start()
-    {
-        bool isMobile = IsMobilePlatform();
-    }
+    [SerializeField] private bool _useTouchControls;
 
-    public bool IsMobilePlatform()
+    public void FindAllCarControllersAndToggleInputButtons()
     {
-        return Application.isMobilePlatform;
+        CarController[] carControllers = Object.FindObjectsOfType<CarController>();
+
+        foreach (CarController controller in carControllers)
+        {
+            controller.ToggleInputControls();
+        }
     }
 }

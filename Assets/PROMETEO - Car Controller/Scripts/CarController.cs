@@ -12,7 +12,7 @@ public enum GearBoxGears {
     N,
     D
 }
-[RequireComponent(typeof(PlatformChecker))]
+
 public class CarController : ILiftable
 {
       [Header("CAR SETUP")]
@@ -159,10 +159,9 @@ public class CarController : ILiftable
 
     [Space(10)]
     [Header("Forklift chain")]
-    [SerializeField] private bool isForklift;
+    public bool isForklift;
     [SerializeField] public ForkliftController forkliftController;
     [SerializeField] public Transform cameraPlace;
-    private PlatformChecker platformChecker;
     void Start()
     {
       //In this part, we set the 'carRigidbody' value with the Rigidbody attached to this
@@ -244,28 +243,8 @@ public class CarController : ILiftable
           }
         }
 
-        platformChecker = GetComponent<PlatformChecker>();
-        useTouchControls = platformChecker.isMobile;
-
-        if (useTouchControls){
-          if(throttleButton != null && reverseButton != null &&
-          turnRightButton != null && turnLeftButton != null
-          && handbrakeButton != null){
-
-            throttlePTI = throttleButton.GetComponent<PrometeoTouchInput>();
-            reversePTI = reverseButton.GetComponent<PrometeoTouchInput>();
-            turnLeftPTI = turnLeftButton.GetComponent<PrometeoTouchInput>();
-            turnRightPTI = turnRightButton.GetComponent<PrometeoTouchInput>();
-            handbrakePTI = handbrakeButton.GetComponent<PrometeoTouchInput>();
-            touchControlsSetup = true;
-
-          }else{
-            String ex = "Touch controls are not completely set up. You must drag and drop your scene buttons in the" +
-            " PrometeoCarController component.";
-            Debug.LogWarning(ex);
-          }
-        }
-        if(isForklift)
+        InitializeInputControls();
+        if (isForklift)
             forkliftController = GetComponentInChildren<ForkliftController>(); }
 
     void Update()
@@ -373,7 +352,35 @@ public class CarController : ILiftable
       AnimateWheelMeshes();
 
     }
+    private void InitializeInputControls() {
+        if (useTouchControls)
+        {
+            if (throttleButton != null && reverseButton != null &&
+            turnRightButton != null && turnLeftButton != null
+            && handbrakeButton != null)
+            {
 
+                throttlePTI = throttleButton.GetComponent<PrometeoTouchInput>();
+                reversePTI = reverseButton.GetComponent<PrometeoTouchInput>();
+                turnLeftPTI = turnLeftButton.GetComponent<PrometeoTouchInput>();
+                turnRightPTI = turnRightButton.GetComponent<PrometeoTouchInput>();
+                handbrakePTI = handbrakeButton.GetComponent<PrometeoTouchInput>();
+                touchControlsSetup = true;
+
+            }
+            else
+            {
+                String ex = "Touch controls are not completely set up. You must drag and drop your scene buttons in the" +
+                " PrometeoCarController component.";
+                Debug.LogWarning(ex);
+            }
+        }
+    }
+    public void ToggleInputControls()
+    {
+        useTouchControls = !useTouchControls;
+        InitializeInputControls();
+    }
     // This method converts the car speed data from float to string, and then set the text of the UI carSpeedText with this value.
     public void CarSpeedUI(){
 

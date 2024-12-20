@@ -6,30 +6,32 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CarController carController;
     [SerializeField] private Toggle inputControlsToggle;
     private bool useTouchControls;
-    [SerializeField] private bool isLiftButtonsActive = false;
     [SerializeField] private GameObject liftButtons;
     [SerializeField] private ScoresStarsAnimation scoresStarsAnimation;
     [SerializeField] private TimeTargetManager timeTargetManager;
     [SerializeField] private TimeFinished timeFinished;
     [SerializeField] private TimerManager timerManager;
+    [SerializeField] private SelectedCarController selectedCarController;
     private bool isMenuOpened = false;
     private bool isPopuped = false;
     // MENUSs
     [SerializeField] private GameObject winCanvas;
     [SerializeField] private GameObject loseCanvas;
     [SerializeField] private GameObject menuCanvas;
+    public static UIManager instance = null; // singleton
     private void Awake()
     {
+        carController = selectedCarController.GetSelectedCarController();
+        CheckLiftableButtons(carController);
         useTouchControls = carController.useTouchControls;
-        UpdateLiftButtons();
-        UpdateMenu();
+        //singleton
+        if (instance == null)
+            instance = this;
+        else throw new System.Exception("UIManager singleton error.");
     }
-
-    public void UpdateMenu() => inputControlsToggle.isOn = useTouchControls;
 
     public void InputControlsToggle() {
         useTouchControls = !inputControlsToggle.isOn;
-        UpdateMenu();
     }
     
     private void TurnOnCanvas(GameObject _canvas) => _canvas.active = true;
@@ -53,6 +55,7 @@ public class UIManager : MonoBehaviour
         isPopuped = true;
         timeTargetManager.UpdateTimeTargets();
     }
+
     public void TurnOnMenuCanvas()
     {
         isMenuOpened = true;
@@ -64,15 +67,18 @@ public class UIManager : MonoBehaviour
         isMenuOpened = false;
         TurnOffCanvas(menuCanvas);
     }
-    private void ToggleLiftButtons()
-    {
-        isLiftButtonsActive = !isLiftButtonsActive;
-        liftButtons.active = isLiftButtonsActive;
-    }
+
+    private void SetActiveLiftButtons(bool value) => liftButtons.SetActive(value);
+
     private bool CheckPopUps() {
         if (isMenuOpened) TurnOffMenuCanvas();
         if (isPopuped) return true;
         return false;
     }
-    private void UpdateLiftButtons() {} //liftButtons.active = isLiftButtonsActive;
+
+    public void CheckLiftableButtons(CarController carController)
+    {
+        if(carController == null) return;
+        SetActiveLiftButtons(carController.isForklift);
+    }
 }

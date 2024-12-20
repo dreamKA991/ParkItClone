@@ -24,7 +24,7 @@ public class SelectedCarController : MonoBehaviour
 
         SelectCarByIndex(carIndex);
     }
-
+    public CarController GetSelectedCarController() { return selectedCarController; }
     private void SelectCarByIndex(int index)
     {
         if (index >= 0 && index < carControllers.Count)
@@ -35,6 +35,7 @@ public class SelectedCarController : MonoBehaviour
 
             selectedCarController = carControllers[index];
             selectedCarController.enabled = true;
+            CheckUILiftableButtons(selectedCarController);
 
             if (selectedCarController.forkliftController != null)
                 selectedCarController.forkliftController.enabled = true;
@@ -47,6 +48,7 @@ public class SelectedCarController : MonoBehaviour
             Debug.LogError("Invalid index selected!");
         }
     }
+    private void CheckUILiftableButtons(CarController selectedCarController) => UIManager.instance.CheckLiftableButtons(selectedCarController);
 
     public void SelectCarByName(string _name)
     {

@@ -28,7 +28,7 @@ public class DrawDistance : MonoBehaviour
         slider.onValueChanged.AddListener(OnValueChanged);
     }
 
-    private void SetDrawDistance(int drawDistance)
+    private void SetDrawDistance(float drawDistance)
     {
         if (mainCamera != null)
         {
@@ -40,9 +40,9 @@ public class DrawDistance : MonoBehaviour
             slider.value = drawDistance;
         }
 
-        PlayerPrefs.SetInt("DrawDistance", drawDistance);
+        PlayerPrefs.SetInt("DrawDistance", Convert.ToInt32(drawDistance));
         PlayerPrefs.Save();
     }
 
-    private void OnValueChanged(float value) => SetDrawDistance(Convert.ToInt32(value));
+    private void OnValueChanged(float value) => SetDrawDistance(value);
 }
