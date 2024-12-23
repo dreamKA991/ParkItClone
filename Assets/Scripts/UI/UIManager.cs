@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, IRestartable
 {
     [SerializeField] private CarController carController;
     [SerializeField] private Toggle inputControlsToggle;
@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TimeFinished timeFinished;
     [SerializeField] private TimerManager timerManager;
     [SerializeField] private SelectedCarController selectedCarController;
+
     private bool isMenuOpened = false;
     private bool isPopuped = false;
     // MENUSs
@@ -80,5 +81,12 @@ public class UIManager : MonoBehaviour
     {
         if(carController == null) return;
         SetActiveLiftButtons(carController.isForklift);
+    }
+    public void Restart()
+    {
+        TurnOffCanvas(winCanvas);
+        TurnOffCanvas(loseCanvas);
+        isPopuped = false;
+        TurnOffMenuCanvas();
     }
 }

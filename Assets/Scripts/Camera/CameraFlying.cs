@@ -1,39 +1,54 @@
-using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine;
 
 public class CameraFlying : MonoBehaviour, IDragHandler
 {
-    [SerializeField] public Transform target;                  
-    [SerializeField] private float rotationSpeed = 15f;           
-    [SerializeField] private float minYPosition = 1f;             
-    [SerializeField] private float maxVerticalAngle = -30f;       
-    [SerializeField] private float minVerticalAngle = -100f;      
+    [SerializeField] public Transform target;
+    [SerializeField] private float rotationSpeed = 15f;
+    [SerializeField] private float minYPosition = 1f;
+    [SerializeField] private float maxVerticalAngle = -30f;
+    [SerializeField] private float minVerticalAngle = -100f;
     [SerializeField] private CarController carController;
-    private Camera mainCamera;
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private Vector3 initialOffset;
     private Vector3 savedInitialOffset;
     private float currentVerticalAngle = 0f;
 
     void Start()
     {
-        mainCamera = Camera.main;
-        if (mainCamera == null)
-        {
-            Debug.LogError("Главная камера не найдена!");
-            return;
-        }
+        if (mainCamera == null) mainCamera = Camera.main;
+
         carController = target.GetComponent<CarController>();
-        initialOffset = mainCamera.transform.position - target.position;
-        savedInitialOffset = initialOffset;
+        if (mainCamera.transform != null)
+        {
+            initialOffset = mainCamera.transform.position - target.position;
+            savedInitialOffset = initialOffset;
+        }
+    }
+
+    public void SetNewTarget(Transform _newTarget)
+    {
+        if(_newTarget == null) return;
+        target = _newTarget;
+        carController = target.gameObject.GetComponent<CarController>();
+        mainCamera.transform.parent = target;
+        mainCamera.transform.position = carController.cameraPlace.position;
+        mainCamera.transform.LookAt(target);
+
     }
 
     void Update()
     {
-        initialOffset = mainCamera.transform.position - target.position;
+        if (mainCamera != null && target != null)
+        {
+            initialOffset = mainCamera.transform.position - target.position;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (mainCamera == null || target == null) return;
+
         float horizontal = eventData.delta.x * rotationSpeed * Time.deltaTime;
         float vertical = -eventData.delta.y * rotationSpeed * Time.deltaTime;
 
@@ -52,13 +67,5 @@ public class CameraFlying : MonoBehaviour, IDragHandler
             mainCamera.transform.position = target.position + initialOffset;
             mainCamera.transform.LookAt(target);
         }
-    }
-    public void SetNewTarget(Transform _newTarget)
-    {
-        target = _newTarget;
-        carController = target.GetComponent<CarController>();
-        mainCamera.transform.parent = _newTarget.transform;
-        mainCamera.transform.position = carController.cameraPlace.position;
-        mainCamera.transform.LookAt(target);
     }
 }

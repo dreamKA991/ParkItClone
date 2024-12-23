@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 public enum GearBoxType
@@ -13,7 +14,7 @@ public enum GearBoxGears {
     D
 }
 
-public class CarController : ILiftable
+public class CarController : ILiftable, IRestartable
 {
       [Header("CAR SETUP")]
       [Space(10)]
@@ -660,17 +661,26 @@ public class CarController : ILiftable
     }
 
     // This function applies brake torque to the wheels according to the brake force given by the user.
-    public void Brakes(){
+    private void Brakes(){
       frontLeftCollider.brakeTorque = brakeForce;
       frontRightCollider.brakeTorque = brakeForce;
       rearLeftCollider.brakeTorque = brakeForce;
       rearRightCollider.brakeTorque = brakeForce;
     }
-
+    private void ExtraStopCar()
+    {
+        int savedBrakeForce = brakeForce;
+        brakeForce = 999999999;
+        Brakes();
+        if (carRigidbody == null) carRigidbody = GetComponent<Rigidbody>();
+        carRigidbody.velocity = Vector3.zero;
+        carRigidbody.angularVelocity = Vector3.zero;
+        brakeForce = savedBrakeForce;
+    }
     // This function is used to make the car lose traction. By using this, the car will start drifting. The amount of traction lost
     // will depend on the handbrakeDriftMultiplier variable. If this value is small, then the car will not drift too much, but if
     // it is high, then you could make the car to feel like going on ice.
-    public void Handbrake(){
+    private void Handbrake(){
       if(Mathf.Abs(localVelocityX) < 5) Brakes();
       CancelInvoke("RecoverTraction");
       // We are going to start losing traction smoothly, there is were our 'driftingAxis' variable takes
@@ -803,4 +813,16 @@ public class CarController : ILiftable
         driftingAxis = 0f;
       }
     }
+    private IEnumerator StopCarCoroutine(float time = 1f)
+    {
+        ExtraStopCar();
+        float elapsed = 0f;
+        while (elapsed < time)
+        {
+            elapsed += Time.deltaTime; 
+            yield return null; 
+        }
+    }
+    public void Restart() => StartCoroutine(StopCarCoroutine());
+
 }

@@ -1,11 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RestartButton : MonoBehaviour
 {
-    public void RestartCurrentScene()
+    [SerializeField] private MonoBehaviour[] restartableComponents;
+
+    public void RestartAllScene()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        foreach (var component in restartableComponents)
+        {
+            if (component is IRestartable restartable)
+            {
+                restartable.Restart();
+            }
+        }
     }
 }

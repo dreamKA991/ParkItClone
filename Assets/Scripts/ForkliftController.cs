@@ -70,11 +70,7 @@ public class ForkliftController : MonoBehaviour
 
         if (iLiftable != null)
         {
-            if (other.transform.parent != null)
-            {
-                triggerGameObject = other.transform.parent.gameObject;
-            }
-            else if (isDebuging) Debug.Log($"Object {other.name} with ILiftable has no parent!");
+                triggerGameObject = other.gameObject;
         }
     }
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class SelectedCarController : MonoBehaviour
+public class SelectedCarController : MonoBehaviour, IRestartable
 {
     [SerializeField] private List<CarController> carControllers;
     [SerializeField] private CarController selectedCarController;
@@ -13,7 +13,8 @@ public class SelectedCarController : MonoBehaviour
     {
         carControllers = new List<CarController>(FindObjectsOfType<CarController>());
         selectedCarController = carControllers[carIndex];
-        if (carControllers.Count == 1) carIndex = -1; // если CarController единственный ничего не меняется
+        cameraFlying.SetNewTarget(selectedCarController.transform);
+        if (carControllers.Count == 1) carIndex = -1;
     }
 
     public void SelectNext()
@@ -62,5 +63,16 @@ public class SelectedCarController : MonoBehaviour
         {
             Debug.LogError($"Car with name {_name} not found!");
         }
+    }
+    private void StopAllCarControllers()
+    {
+        foreach (var carController in carControllers)
+        {
+            carController.Restart();
+        }
+    }
+    public void Restart() {
+        Start();
+        StopAllCarControllers();
     }
 }
