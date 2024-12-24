@@ -1,10 +1,10 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class ForkliftController : MonoBehaviour
+public class ForkliftController : MonoBehaviour, IRestartable
 {
-    [SerializeField] private float moveDistance = 1f; 
-    [SerializeField] private float moveDuration = 1f; 
+    [SerializeField] private float moveDistance = 1f;
+    [SerializeField] private float moveDuration = 1f;
     [SerializeField] private int position = 1;
     private int maxPosition = 3;
     private bool isMoving = false;
@@ -18,7 +18,14 @@ public class ForkliftController : MonoBehaviour
     [SerializeField] private GameObject triggerGameObject;
     [SerializeField] private float breakForce = 1000000f;
 
-    private void Awake() => joint = GetComponent<FixedJoint>();
+    // Restart
+    private Vector3 initialPosition;
+
+    private void Awake()
+    {
+        joint = GetComponent<FixedJoint>();
+        initialPosition = transform.position;
+    }
 
     private void Update()
     {
@@ -40,56 +47,24 @@ public class ForkliftController : MonoBehaviour
                 {
                     Destroy(joint);
                 }
-                else if (position == 2 && _isHaveTriggerObject == true)
+                else if (position == 2 && _isHaveTriggerObject)
                 {
                     if (IsObjectCorrectlyPlaced())
                     {
                         SetNewJoint(triggerGameObject);
                     }
-                    else
+                    else if (isDebuging)
                     {
-                        if (isDebuging) Debug.LogWarning("Object is not correctly placed on the forklift!");
+                        Debug.LogWarning("Object is not correctly placed on the forklift!");
                     }
                 }
             });
     }
 
-    private void SetNewJoint(GameObject _obj)
-    {
-        if (joint == null) joint = gameObject.AddComponent<FixedJoint>();
-        joint.connectedBody = _obj.GetComponent<Rigidbody>();
-        joint.breakForce = breakForce;
-        joint.breakTorque = breakForce;
-        joint.enableCollision = true;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isDebuging) Debug.Log($"OnTriggerEnter collider other is: " + other.name);
-        ILiftable iLiftable = other.GetComponent<ILiftable>();
-
-        if (iLiftable != null)
-        {
-                triggerGameObject = other.gameObject;
-        }
-    }
-
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform.parent != null && other.transform.parent.gameObject == triggerGameObject)
-        {
-            triggerGameObject = null;
-        }
-    }
-
-
     public void MoveForkUp()
     {
         if (isMoving) return;
-        bool isHaveTriggerObject = false;
-        if (triggerGameObject != null)
-            isHaveTriggerObject = true;
+        bool isHaveTriggerObject = triggerGameObject != null;
 
         if (position < maxPosition)
         {
@@ -97,9 +72,8 @@ public class ForkliftController : MonoBehaviour
             if (isHaveTriggerObject)
             {
                 savedRotationBeforeForkUp = triggerGameObject.transform.rotation;
-                MoveFork(moveDistance, isHaveTriggerObject);
             }
-            else MoveFork(moveDistance, isHaveTriggerObject);
+            MoveFork(moveDistance, isHaveTriggerObject);
         }
     }
 
@@ -127,5 +101,50 @@ public class ForkliftController : MonoBehaviour
 
         if (isDebuging) Debug.Log("Object is correctly placed.");
         return true;
+    }
+
+    private void SetNewJoint(GameObject _obj)
+    {
+        if (joint == null) joint = gameObject.AddComponent<FixedJoint>();
+        joint.connectedBody = _obj.GetComponent<Rigidbody>();
+        joint.breakForce = breakForce;
+        joint.breakTorque = breakForce;
+        joint.enableCollision = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isDebuging) Debug.Log($"OnTriggerEnter collider other is: {other.name}");
+        ILiftable iLiftable = other.GetComponent<ILiftable>();
+
+        if (iLiftable != null)
+        {
+            if (other.transform.parent != null)
+            {
+                triggerGameObject = other.transform.parent.gameObject;
+            }
+            else if (isDebuging)
+            {
+                Debug.Log($"Object {other.name} with ILiftable has no parent!");
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.parent != null && other.transform.parent.gameObject == triggerGameObject)
+        {
+            triggerGameObject = null;
+        }
+    }
+
+    public void Restart()
+    {
+        if (joint != null) Destroy(joint);
+        transform.position = initialPosition;
+        position = 1;
+        isMoving = false;
+        triggerGameObject = null;
+        if (isDebuging) Debug.Log("Forklift reset to initial position.");
     }
 }

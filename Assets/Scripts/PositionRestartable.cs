@@ -5,6 +5,7 @@ public class Restartable : MonoBehaviour, IRestartable
 {
     private List<ObjectInfo> objectInfos = new List<ObjectInfo>();
     private Rigidbody rb;
+
     private struct ObjectInfo
     {
         public GameObject gameObject;
@@ -21,15 +22,25 @@ public class Restartable : MonoBehaviour, IRestartable
 
     private void Start()
     {
-        foreach (Transform child in transform)
+        // Сохраняем список дочерних объектов в массив
+        Transform[] children = new Transform[transform.childCount];
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            children[i] = transform.GetChild(i);
+        }
+
+        // Работаем с сохранённым массивом
+        foreach (Transform child in children)
         {
             objectInfos.Add(new ObjectInfo(
                 child.gameObject,
                 child.position,
                 child.rotation
             ));
+            child.parent = null; // Убираем родителя
         }
     }
+
     public void Restart()
     {
         foreach (var info in objectInfos)
@@ -39,13 +50,12 @@ public class Restartable : MonoBehaviour, IRestartable
                 info.gameObject.transform.position = info.initialPosition;
                 info.gameObject.transform.rotation = info.initialRotation;
                 rb = info.gameObject.GetComponent<Rigidbody>();
-                if(rb != null)
+                if (rb != null)
                 {
                     rb.velocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
-                } 
+                }
             }
-            
         }
     }
 }
