@@ -12,6 +12,7 @@ public class ForkliftController : MonoBehaviour, IRestartable
     private Quaternion savedRotationBeforeForkUp;
     [SerializeField] private float maxAllowedAngleDifference = 15f;
     [SerializeField] private BlockTrigger blockTrigger;
+    private Tween animation;
 
     // Joint system
     private FixedJoint joint;
@@ -37,7 +38,7 @@ public class ForkliftController : MonoBehaviour, IRestartable
     {
         isMoving = true;
 
-        transform.DOMoveY(transform.position.y + _direction, moveDuration)
+        animation = transform.DOMoveY(transform.position.y + _direction, moveDuration)
             .SetEase(Ease.InOutSine)
             .OnComplete(() =>
             {
@@ -141,6 +142,7 @@ public class ForkliftController : MonoBehaviour, IRestartable
     public void Restart()
     {
         if (joint != null) Destroy(joint);
+        animation.Kill();
         transform.position = initialPosition;
         position = 1;
         isMoving = false;

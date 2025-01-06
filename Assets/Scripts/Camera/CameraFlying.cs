@@ -1,7 +1,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class CameraFlying : MonoBehaviour, IDragHandler
+public class CameraFlying : MonoBehaviour, IDragHandler, IRestartable
 {
     [SerializeField] public Transform target;
     [SerializeField] private float rotationSpeed = 15f;
@@ -17,8 +17,8 @@ public class CameraFlying : MonoBehaviour, IDragHandler
     void Start()
     {
         if (mainCamera == null) mainCamera = Camera.main;
-
         carController = target.GetComponent<CarController>();
+        
         if (mainCamera.transform != null)
         {
             initialOffset = mainCamera.transform.position - target.position;
@@ -67,5 +67,9 @@ public class CameraFlying : MonoBehaviour, IDragHandler
             mainCamera.transform.position = target.position + initialOffset;
             mainCamera.transform.LookAt(target);
         }
+    }
+    private void Restart()
+    {
+        Start();
     }
 }

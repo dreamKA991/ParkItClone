@@ -22,14 +22,13 @@ public class Restartable : MonoBehaviour, IRestartable
 
     private void Start()
     {
-        // Сохраняем список дочерних объектов в массив
+        GlobalEventManager.onRestart.AddListener(Restart);
         Transform[] children = new Transform[transform.childCount];
         for (int i = 0; i < transform.childCount; i++)
         {
             children[i] = transform.GetChild(i);
         }
 
-        // Работаем с сохранённым массивом
         foreach (Transform child in children)
         {
             objectInfos.Add(new ObjectInfo(
@@ -37,7 +36,7 @@ public class Restartable : MonoBehaviour, IRestartable
                 child.position,
                 child.rotation
             ));
-            child.parent = null; // Убираем родителя
+            child.parent = null; 
         }
     }
 

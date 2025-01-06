@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[RequireComponent (typeof(LevelGrading))]
 public class GameTaskManager : MonoBehaviour
 {
     [SerializeField] private bool canITouchProps = true;
@@ -7,7 +7,9 @@ public class GameTaskManager : MonoBehaviour
     [SerializeField] private TimerManager timerManager;
     [SerializeField] private TimeTargetManager timeTargetManager;
     [SerializeField] private SoundManager soundManager;
+    [SerializeField] private LevelGrading levelGrading;
     private int grade = 3;
+
     private void Start()
     {
         GlobalEventManager.onCharacterTouchedGameObject.AddListener(TouchObjectsLogic);
@@ -22,17 +24,21 @@ public class GameTaskManager : MonoBehaviour
         GlobalEventManager.onCharacterLose.Invoke();
         Debug.Log("GameTaskManager: TouchObjectsLogic(GameObject) method called. GameObject is " + _obj.name);
     }
+
     private void GameWin()
     {
         Debug.Log("GameTaskManager: GameWin method called.");
         grade = timeTargetManager.GetGrade(timerManager.GetTimeInSeconds());
         uiManager.ToggleWinCanvas(grade);
         soundManager.PlayWinSounds();
+        levelGrading.LevelGradeSave(grade);
     }
+
     private void GameLose()
     {
         Debug.Log("GameTaskManager: GameLose method called.");
         uiManager.ToggleLoseCanvas();
         soundManager.PlayLoseSounds();
     }
+
 }

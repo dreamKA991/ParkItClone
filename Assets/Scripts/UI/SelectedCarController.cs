@@ -6,20 +6,24 @@ public class SelectedCarController : MonoBehaviour, IRestartable
 {
     [SerializeField] private List<CarController> carControllers;
     [SerializeField] private CarController selectedCarController;
-    private int carIndex = 0;
+    private int carIndex;
+    private bool soloCarController;
     [SerializeField] private CameraFlying cameraFlying;
 
     private void Start()
     {
+        if (carControllers.Count == 1) soloCarController = true; // break logic cause only one carController on scene
+        carIndex = 0;
+        GlobalEventManager.onRestart.AddListener(Restart);
         carControllers = new List<CarController>(FindObjectsOfType<CarController>());
         selectedCarController = carControllers[carIndex];
+        SelectCarByIndex(carIndex);
         cameraFlying.SetNewTarget(selectedCarController.transform);
-        if (carControllers.Count == 1) carIndex = -1;
     }
 
     public void SelectNext()
     {
-        if (carIndex == -1) return;
+        if (soloCarController) return;
 
         carIndex = (carIndex + 1) % carControllers.Count;
 
