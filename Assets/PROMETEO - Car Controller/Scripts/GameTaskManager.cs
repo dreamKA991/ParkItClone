@@ -8,6 +8,7 @@ public class GameTaskManager : MonoBehaviour
     [SerializeField] private TimeTargetManager timeTargetManager;
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private LevelGrading levelGrading;
+    [SerializeField] private BannerAd bannerAd;
     private int grade = 3;
     [SerializeField] private bool isFinished = false;
 
@@ -45,6 +46,7 @@ public class GameTaskManager : MonoBehaviour
         Debug.Log("GameTaskManager: GameLose method called.");
         uiManager.ToggleLoseCanvas();
         soundManager.PlayLoseSounds();
+        bannerAd.ShowBanner();
     }
     private void Restart()
     {

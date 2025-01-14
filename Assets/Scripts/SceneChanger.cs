@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour
 {
     private Scene currentScene;
-
+    [SerializeField] BannerAd bannerAd;
     public void LoadScene(string sceneName) 
     {
         SceneManager.LoadScene(sceneName);
@@ -15,7 +15,7 @@ public class SceneChanger : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene();
         
-        if (currentScene.name == "LevelMenu") { }
+        if (currentScene.name == "LevelMenu") { bannerAd.OnMenuLoaded(); bannerAd.ShowBanner(); }
     }
 
     public void LoadNextLevel()

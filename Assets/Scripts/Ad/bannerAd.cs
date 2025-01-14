@@ -2,24 +2,30 @@ using GoogleMobileAds.Api;
 using System.Collections;
 using UnityEngine;
 
-public class bannerAd : MonoBehaviour
+public class BannerAd : MonoBehaviour
 {
+    [SerializeField] AdPosition adPosition = AdPosition.Top;
     private BannerView bannerView;
 #if UNITY_ANDROID
     private const string bannerUnitId = "ca-app-pub-3940256099942544/6300978111"; // TEST ID NOW, CHANGE IT SYKA
 #else
     private const string bannerUnitId = "";
 #endif
-
-    private void OnEnable()
+    private void Start()
     {
-        bannerView = new BannerView(bannerUnitId, AdSize.SmartBanner, AdPosition.Bottom);
+        bannerView = new BannerView(bannerUnitId, AdSize.SmartBanner, adPosition);
+        AdRequest request = new AdRequest.Builder().Build();
+        bannerView.LoadAd(request);
+    }
+    public void OnMenuLoaded()
+    {
+        bannerView = new BannerView(bannerUnitId, AdSize.SmartBanner, adPosition);
         AdRequest request = new AdRequest.Builder().Build();
         bannerView.LoadAd(request);
         StartCoroutine(ShowBanner());
     }
 
-    IEnumerator ShowBanner()
+    public IEnumerator ShowBanner()
     {
         yield return new WaitForSecondsRealtime(1.0f);
         bannerView.Show();
