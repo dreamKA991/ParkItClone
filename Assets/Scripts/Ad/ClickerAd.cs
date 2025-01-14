@@ -17,7 +17,7 @@ public class ClickerAd : MonoBehaviour
         {
             interstitialReclam.Init();
             interstitialReclam.Show();
-            times = 1;
+            times = 0;
         }
     }
 }

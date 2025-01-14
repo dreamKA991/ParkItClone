@@ -13,7 +13,9 @@ public class BannerAd : MonoBehaviour
 #endif
     private void Start()
     {
-        bannerView = new BannerView(bannerUnitId, AdSize.SmartBanner, adPosition);
+        if(adPosition == AdPosition.Top) bannerView = new BannerView(bannerUnitId, AdSize.Banner, adPosition);
+        else bannerView = new BannerView(bannerUnitId, AdSize.SmartBanner, adPosition);
+
         AdRequest request = new AdRequest.Builder().Build();
         bannerView.LoadAd(request);
     }
