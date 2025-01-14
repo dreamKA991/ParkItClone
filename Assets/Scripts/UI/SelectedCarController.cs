@@ -16,7 +16,6 @@ public class SelectedCarController : MonoBehaviour, IRestartable
         carIndex = 0;
         GlobalEventManager.onRestart.AddListener(Restart);
         carControllers = new List<CarController>(FindObjectsOfType<CarController>());
-        selectedCarController = carControllers[carIndex];
         SelectCarByIndex(carIndex);
         cameraFlying.SetNewTarget(selectedCarController.transform);
     }

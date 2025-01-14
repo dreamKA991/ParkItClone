@@ -9,12 +9,14 @@ public class GameTaskManager : MonoBehaviour
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private LevelGrading levelGrading;
     private int grade = 3;
+    [SerializeField] private bool isFinished = false;
 
     private void Start()
     {
         GlobalEventManager.onCharacterTouchedGameObject.AddListener(TouchObjectsLogic);
         GlobalEventManager.onCharacterParkedCorrectly.AddListener(GameWin);
         GlobalEventManager.onCharacterLose.AddListener(GameLose);
+        GlobalEventManager.onRestart.AddListener(Restart);
     }
 
     private void TouchObjectsLogic(GameObject _obj) {
@@ -27,6 +29,8 @@ public class GameTaskManager : MonoBehaviour
 
     private void GameWin()
     {
+        if (isFinished) return;
+        isFinished = true;
         Debug.Log("GameTaskManager: GameWin method called.");
         grade = timeTargetManager.GetGrade(timerManager.GetTimeInSeconds());
         uiManager.ToggleWinCanvas(grade);
@@ -36,9 +40,14 @@ public class GameTaskManager : MonoBehaviour
 
     private void GameLose()
     {
+        if (isFinished) return;
+        isFinished = true;
         Debug.Log("GameTaskManager: GameLose method called.");
         uiManager.ToggleLoseCanvas();
         soundManager.PlayLoseSounds();
     }
-
+    private void Restart()
+    {
+        isFinished = false;
+    }
 }

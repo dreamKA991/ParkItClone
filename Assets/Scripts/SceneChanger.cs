@@ -8,7 +8,7 @@ public class SceneChanger : MonoBehaviour
     public void LoadScene(string sceneName) 
     {
         SceneManager.LoadScene(sceneName);
-        //GlobalEventManager.onRestart?.Invoke();
+        GlobalEventManager.onRestart?.Invoke();
     }
 
     private void Start()
