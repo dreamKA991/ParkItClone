@@ -7,7 +7,7 @@ public class BannerAd : MonoBehaviour
     [SerializeField] AdPosition adPosition = AdPosition.Top;
     private BannerView bannerView;
 #if UNITY_ANDROID
-    private const string bannerUnitId = "ca-app-pub-3940256099942544/6300978111"; // TEST ID NOW, CHANGE IT SYKA
+    private const string bannerUnitId =  "ca-app-pub-3940256099942544/9214589741"; // TEST BANNER AD ID
 #else
     private const string bannerUnitId = "";
 #endif

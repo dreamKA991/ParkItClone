@@ -2,7 +2,7 @@ using GoogleMobileAds.Api;
 public class InterstitialReclam
 {
     private InterstitialAd interstitial;
-    private const string adUnitId = "ca-app-pub-3940256099942544/1033173712"; // TEST ID NOW, CHANGE IT SYKA
+    private const string adUnitId = "ca-app-pub-3940256099942544/1033173712"; // TEST BANNER AD ID
     public void Init()
     {
         interstitial = new InterstitialAd(adUnitId);
