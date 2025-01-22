@@ -1,19 +1,9 @@
 using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-public enum GearBoxType
-{
-    Automatic,
-    Manual
-}
-public enum GearBoxGears {
-    P,
-    R,
-    N,
-    D
-}
 
-public class CarController : ILiftable
+
+public class CarController : ILiftable, IRestartable
 {
       [Header("CAR SETUP")]
       [Space(10)]
@@ -40,9 +30,7 @@ public class CarController : ILiftable
                                      // in the points x = 0 and z = 0 of your car. You can select the value that you want in the y axis,
                                      // however, you must notice that the higher this value is, the more unstable the car becomes.
                                      // Usually the y value goes from 0 to 1.5.
-    
-      public GearBoxType gearBoxType = GearBoxType.Automatic;
-      public GearBoxGears gearBoxGears = GearBoxGears.P;
+
       //WHEELS
 
       [Header("WHEELS")]
@@ -80,17 +68,6 @@ public class CarController : ILiftable
       // The following trail renderers are used as tire skids when the car loses traction.
       public TrailRenderer RLWTireSkid;
       public TrailRenderer RRWTireSkid;
-
-    //SPEED TEXT (UI)
-
-      [Space(20)]
-      [Header("UI")]
-      [Space(10)]
-      //The following variable lets you to set up a UI text to display the speed of your car.
-      public bool useUI = false;
-      public Text carSpeedText; // Used to store the UI object that is going to show the speed of the car.
-    //GEAR TEXT (UI)
-      public Text gearSpeedText; // Used to store the UI object that is going to show the gear of the car.
 
     //SOUNDS
 
@@ -206,16 +183,10 @@ public class CarController : ILiftable
           initialCarEngineSoundPitch = carEngineSound.pitch;
 
 
-        // We invoke 2 methods inside this script. CarSpeedUI() changes the text of the UI object that stores
+
         // the speed of the car and CarSounds() controls the engine and drifting sounds. Both methods are invoked
         // in 0 seconds, and repeatedly called every 0.1 seconds.
-        if(useUI){
-          InvokeRepeating("CarSpeedUI", 0f, 0.1f);
-        }else if(!useUI){
-          if(carSpeedText != null){
-            carSpeedText.text = "0";
-          }
-        }
+
 
         if(useSounds){
           InvokeRepeating("CarSounds", 0f, 0.1f);
@@ -381,36 +352,7 @@ public class CarController : ILiftable
         useTouchControls = !useTouchControls;
         InitializeInputControls();
     }
-    // This method converts the car speed data from float to string, and then set the text of the UI carSpeedText with this value.
-    public void CarSpeedUI(){
 
-      if(useUI){
-          try{
-            float absoluteCarSpeed = Mathf.Abs(carSpeed);
-            GearBoxUI();
-            carSpeedText.text = Mathf.RoundToInt(absoluteCarSpeed).ToString();
-        }catch(Exception ex){
-            Debug.LogWarning(ex);
-        }
-    }
-    }
-    public void GearBoxUI() {
-        int speed = Mathf.RoundToInt(localVelocityZ);
-    if (speed < 0 )
-        {
-            gearBoxGears = GearBoxGears.R;
-            gearSpeedText.text = "R";
-        }
-    else if(speed == 0) {
-            gearBoxGears = GearBoxGears.N;
-            gearSpeedText.text = "N";
-        }
-        else if (speed > 0)
-        {
-            gearBoxGears = GearBoxGears.D;
-            gearSpeedText.text = "D";
-        }
-    }
     // This method controls the car sounds. For example, the car engine will sound slow when the car speed is low because the
     // pitch of the sound will be at its lowest point. On the other hand, it will sound fast when the car speed is high because
     // the pitch of the sound will be the sum of the initial pitch + the car speed divided by 100f.
@@ -660,17 +602,26 @@ public class CarController : ILiftable
     }
 
     // This function applies brake torque to the wheels according to the brake force given by the user.
-    public void Brakes(){
+    private void Brakes(){
       frontLeftCollider.brakeTorque = brakeForce;
       frontRightCollider.brakeTorque = brakeForce;
       rearLeftCollider.brakeTorque = brakeForce;
       rearRightCollider.brakeTorque = brakeForce;
     }
-
+    private void ExtraStopCar()
+    {
+        int savedBrakeForce = brakeForce;
+        brakeForce = 999999999;
+        Brakes();
+        if (carRigidbody == null) carRigidbody = GetComponent<Rigidbody>();
+        carRigidbody.velocity = Vector3.zero;
+        carRigidbody.angularVelocity = Vector3.zero;
+        brakeForce = savedBrakeForce;
+    }
     // This function is used to make the car lose traction. By using this, the car will start drifting. The amount of traction lost
     // will depend on the handbrakeDriftMultiplier variable. If this value is small, then the car will not drift too much, but if
     // it is high, then you could make the car to feel like going on ice.
-    public void Handbrake(){
+    private void Handbrake(){
       if(Mathf.Abs(localVelocityX) < 5) Brakes();
       CancelInvoke("RecoverTraction");
       // We are going to start losing traction smoothly, there is were our 'driftingAxis' variable takes
@@ -803,4 +754,16 @@ public class CarController : ILiftable
         driftingAxis = 0f;
       }
     }
+    private IEnumerator StopCarCoroutine(float time = 1f)
+    {
+        ExtraStopCar();
+        float elapsed = 0f;
+        while (elapsed < time)
+        {
+            elapsed += Time.deltaTime; 
+            yield return null; 
+        }
+    }
+    public void Restart() => StartCoroutine(StopCarCoroutine());
+
 }

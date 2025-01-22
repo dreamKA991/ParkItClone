@@ -2,23 +2,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class SelectedCarController : MonoBehaviour
+public class SelectedCarController : MonoBehaviour, IRestartable
 {
     [SerializeField] private List<CarController> carControllers;
     [SerializeField] private CarController selectedCarController;
-    private int carIndex = 0;
+    private int carIndex;
+    private bool soloCarController;
     [SerializeField] private CameraFlying cameraFlying;
 
     private void Start()
     {
+        if (carControllers.Count == 1) soloCarController = true; // break logic cause only one carController on scene
+        carIndex = 0;
+        GlobalEventManager.onRestart.AddListener(Restart);
         carControllers = new List<CarController>(FindObjectsOfType<CarController>());
-        selectedCarController = carControllers[carIndex];
-        if (carControllers.Count == 1) carIndex = -1; // если CarController единственный ничего не меняется
+        SelectCarByIndex(carIndex);
+        cameraFlying.SetNewTarget(selectedCarController.transform);
     }
 
     public void SelectNext()
     {
-        if (carIndex == -1) return;
+        if (soloCarController) return;
 
         carIndex = (carIndex + 1) % carControllers.Count;
 
@@ -62,5 +66,16 @@ public class SelectedCarController : MonoBehaviour
         {
             Debug.LogError($"Car with name {_name} not found!");
         }
+    }
+    private void StopAllCarControllers()
+    {
+        foreach (var carController in carControllers)
+        {
+            carController.Restart();
+        }
+    }
+    public void Restart() {
+        Start();
+        StopAllCarControllers();
     }
 }

@@ -9,7 +9,7 @@ public class FPSLimit : MonoBehaviour
 
     private void Start()
     {
-        fpsLimit = PlayerPrefs.GetInt("FPSLimit", 60);
+        fpsLimit = PlayerPrefs.GetInt("FPSLimit", 70);
         SetFPSLimit(fpsLimit);
         List<Dropdown.OptionData> dropDownOptions = dropDown.options;
         foreach (var option in dropDownOptions)
@@ -26,7 +26,7 @@ public class FPSLimit : MonoBehaviour
     {
         switch (FrameRate)
         {
-            case 0: SetFPSLimit(50); break;
+            case 0: SetFPSLimit(70); break;
             case 1: SetFPSLimit(30); break;
             case 2: SetFPSLimit(24); break;
             case 3: SetFPSLimit(fpsLimit); break;

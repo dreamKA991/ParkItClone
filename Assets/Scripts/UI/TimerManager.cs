@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(TimerCoroutine))]
-public class TimerManager : MonoBehaviour
+public class TimerManager : MonoBehaviour, IRestartable
 {
     private int seconds, minutes;
     [SerializeField] Text timerText;
@@ -26,5 +26,11 @@ public class TimerManager : MonoBehaviour
     }
     public int GetTimeInSeconds() {
         return (minutes * 60) + seconds;
+    }
+    public void Restart()
+    {
+        minutes = 0;
+        seconds = 0;
+        UpdateText();
     }
 }
